@@ -1,5 +1,8 @@
 package it.jacopocarlini.fffp.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,31 +11,27 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
-@Builder
+@Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @ToString
 @Document(collection = "flags")
 public class Flag {
 
-    @Id
-    private String id;
-    @Indexed(unique = true)
-    private String flagKey;
-    private Boolean enabled;
+  @Id private String id;
 
-    private Map<String, Object> variants;
-    private String defaultVariant;
+  @Indexed(unique = true)
+  private String flagKey;
 
-    private List<Target> target;
+  private Boolean enabled;
 
-    private Map<String, Integer> rolloutPercentage;
+  private Map<String, Object> variants;
+  private String defaultVariant;
 
-    private LocalDateTime timeWindowStart;
-    private LocalDateTime timeWindowEnd;
+  private List<Target> target;
 
+  private Map<String, Integer> rolloutPercentage;
+
+  private LocalDateTime timeWindowStart;
+  private LocalDateTime timeWindowEnd;
 }

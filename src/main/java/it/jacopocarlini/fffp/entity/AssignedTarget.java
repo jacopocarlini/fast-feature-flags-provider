@@ -14,12 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "assignedTarget")
 public class AssignedTarget {
 
-    @Indexed(unique = true)
-    private String flagKey;
+  @Indexed(unique = true)
+  private String flagKey;
 
-    @Indexed(unique = true)
-    private String targetKey;
+  @Indexed(unique = true)
+  private String targetKey;
 
-    private String variant;
-
+  private String variant;
 }

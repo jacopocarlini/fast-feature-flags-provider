@@ -11,6 +11,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Target {
 
-    private String filter;
-    private String variant;
+  private String filter;
+  private String variant;
 }
