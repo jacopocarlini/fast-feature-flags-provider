@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -39,8 +40,11 @@ jobs:
         run: mvn -B package --file pom.xml
         shell: bash
 
+
       - name: Deploy to GitHub Package Registry
-        run: mvn --batch-mode deploy
+        run: |
+          REPO="github::default::https://maven.pkg.github.com/${{github.repository}}"
+          mvn -B deploy -DaltReleaseDeploymentRepository="${REPO}"
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
