@@ -1,13 +1,15 @@
 name: Publish Maven Package
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,9 +40,7 @@ jobs:
         shell: bash
 
       - name: Deploy to GitHub Package Registry
-        run: |
-          REPO="github::default::https://maven.pkg.github.com/${{github.repository}}"
-          mvn -B deploy -DaltReleaseDeploymentRepository="${REPO}"
+        run: mvn --batch-mode deploy
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
