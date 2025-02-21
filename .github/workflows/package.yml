@@ -41,6 +41,6 @@ jobs:
       - name: Publish to GitHub Packages
         run: |
           REPO="github::default::https://maven.pkg.github.com/${{github.repository}}"
-          mvn -B deploy -DaltReleaseDeploymentRepository="${REPO}"
+          mvn -B deploy -DaltDeploymentRepository="${REPO}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
