@@ -5,13 +5,21 @@ An open feature provider to operate with MongoDB
 
 # Pre-requisites
 - MongoDB running (see for an example in `examples/docker-compose.yml`) )
-- import the dependency in your `pom.xml`
+- import the dependency in your `pom.xml` and add the GitHub repository. You need a PAT token with read packages scope.
 ``` xml
-<dependency>
-    <groupId>it.jacopocarlini</groupId>
-    <artifactId>fast-feature-flags-provider</artifactId>
-    <version>1.0.0</version>
-</dependency>
+    <dependency>
+        <groupId>com.github.jacopocarlini</groupId>
+        <artifactId>fast-feature-flags-provider</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+...
+<repositories>
+    <repository>
+        <id>github</id>
+        <url>https://public:${env.YOUR_GITHUB_TOKEN_READ_PACKAGES}@maven.pkg.github.com/jacopocarlini/fast-feature-flags-provider</url>
+    </repository>
+</repositories>
 ```
 
 # How To Use

@@ -1,18 +1,17 @@
-package it.jacopocarlini.fffp.providers;
+package com.github.jacopocarlini.fffp.providers;
 
-import static it.jacopocarlini.fffp.util.ProviderUtility.*;
-import static it.jacopocarlini.fffp.util.Reason.*;
 
+import com.github.jacopocarlini.fffp.config.MongoClientManager;
+import com.github.jacopocarlini.fffp.entity.AssignedTarget;
+import com.github.jacopocarlini.fffp.entity.Flag;
+import com.github.jacopocarlini.fffp.repository.AssignedTargetRepository;
+import com.github.jacopocarlini.fffp.repository.FlagRepository;
 import dev.openfeature.sdk.*;
-import it.jacopocarlini.fffp.config.MongoClientManager;
-import it.jacopocarlini.fffp.entity.AssignedTarget;
-import it.jacopocarlini.fffp.entity.Flag;
-import it.jacopocarlini.fffp.exceptions.FeatureFlagEvaluationException;
-import it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
-import it.jacopocarlini.fffp.repository.AssignedTargetRepository;
-import it.jacopocarlini.fffp.repository.FlagRepository;
 import java.util.List;
 import java.util.Optional;
+
+import static com.github.jacopocarlini.fffp.util.ProviderUtility.*;
+import static com.github.jacopocarlini.fffp.util.Reason.*;
 
 public class MongoDBFeatureFlagProvider extends EventProvider {
 
@@ -81,7 +80,7 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
   public void crateFlag(Flag flag) {
     var isPresent = flagRepository.findFirstByFlagKey(flag.getFlagKey()).isPresent();
     if (isPresent) {
-      throw new InvalidFeatureFlagException("Conflict. Flag already present");
+      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Conflict. Flag already present");
     }
 
     checkRolloutPercentage(flag);
@@ -109,7 +108,7 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
   public void deleteFlag(String flagKey) {
     var flag = flagRepository.findFirstByFlagKey(flagKey);
     if (flag.isEmpty()) {
-      throw new InvalidFeatureFlagException("Flag not found");
+      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Flag not found");
     }
     assignedTargetRepository.deleteAllByFlagKey(flagKey);
     flagRepository.deleteByFlagKey(flagKey);
@@ -155,9 +154,9 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
           .build();
 
     } catch (ClassCastException e) {
-      throw new FeatureFlagEvaluationException("Value type mismatch for flag: " + flagKey, e);
+      throw new it.jacopocarlini.fffp.exceptions.FeatureFlagEvaluationException("Value type mismatch for flag: " + flagKey, e);
     } catch (Exception e) {
-      throw new FeatureFlagEvaluationException("Error evaluating flag: " + flagKey, e);
+      throw new it.jacopocarlini.fffp.exceptions.FeatureFlagEvaluationException("Error evaluating flag: " + flagKey, e);
     }
   }
 
@@ -200,7 +199,7 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
   private Flag getFlagIfIsPresent(String flagKey) {
     var flag = flagRepository.findFirstByFlagKey(flagKey);
     if (flag.isEmpty()) {
-      throw new InvalidFeatureFlagException("Flag not found");
+      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Flag not found");
     }
     return flag.get();
   }

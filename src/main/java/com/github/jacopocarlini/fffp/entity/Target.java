@@ -1,4 +1,4 @@
-package it.jacopocarlini.fffp.entity;
+package com.github.jacopocarlini.fffp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

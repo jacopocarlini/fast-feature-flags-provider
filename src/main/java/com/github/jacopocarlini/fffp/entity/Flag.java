@@ -1,4 +1,4 @@
-package it.jacopocarlini.fffp.entity;
+package com.github.jacopocarlini.fffp.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
