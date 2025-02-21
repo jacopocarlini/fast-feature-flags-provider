@@ -1,5 +1,5 @@
-# Fast Feature-Flag Provider
-An open feature provider to operate with MongoDB
+# Fast Feature-Flags Provider
+An [open feature](https://openfeature.dev/) provider to operate with MongoDB
 
 ---
 
