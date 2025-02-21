@@ -5,7 +5,7 @@
 
     <groupId>com.github.jacopocarlini</groupId>
     <artifactId>fast-feature-flags-provider</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
 
     <dependencyManagement>
