@@ -18,7 +18,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "flags")
 public class Flag {
 
-  @Id private String id;
+  @Id
+  private String id;
 
   @Indexed(unique = true)
   private String flagKey;
