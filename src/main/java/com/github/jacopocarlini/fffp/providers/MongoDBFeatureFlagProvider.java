@@ -1,23 +1,22 @@
 package com.github.jacopocarlini.fffp.providers;
 
+import static com.github.jacopocarlini.fffp.util.ProviderUtility.*;
+import static com.github.jacopocarlini.fffp.util.Reason.*;
 
 import com.github.jacopocarlini.fffp.config.MongoClientManager;
 import com.github.jacopocarlini.fffp.entity.AssignedTarget;
 import com.github.jacopocarlini.fffp.entity.Flag;
+import com.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
 import com.github.jacopocarlini.fffp.repository.AssignedTargetRepository;
 import com.github.jacopocarlini.fffp.repository.FlagRepository;
 import dev.openfeature.sdk.*;
-import java.util.List;
 import java.util.Optional;
-
-import static com.github.jacopocarlini.fffp.util.ProviderUtility.*;
-import static com.github.jacopocarlini.fffp.util.Reason.*;
 
 public class MongoDBFeatureFlagProvider extends EventProvider {
 
-  private final FlagRepository flagRepository;
+  protected final FlagRepository flagRepository;
 
-  private final AssignedTargetRepository assignedTargetRepository;
+  protected final AssignedTargetRepository assignedTargetRepository;
 
   private final MongoClientManager mongoClientManager;
 
@@ -69,51 +68,6 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
     return evaluation(flagKey, defaultValue, ctx, Value.class);
   }
 
-  public List<Flag> getFlags() {
-    return flagRepository.findAll();
-  }
-
-  public Flag getFlag(String flagKey) {
-    return getFlagIfIsPresent(flagKey);
-  }
-
-  public void crateFlag(Flag flag) {
-    var isPresent = flagRepository.findFirstByFlagKey(flag.getFlagKey()).isPresent();
-    if (isPresent) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Conflict. Flag already present");
-    }
-
-    checkRolloutPercentage(flag);
-    checkVariant(flag);
-
-    flagRepository.save(flag);
-  }
-
-  public void updateFlag(String flagKey, Flag newFlag) {
-    var flag = getFlagIfIsPresent(flagKey);
-
-    checkRolloutPercentage(newFlag);
-    checkVariant(newFlag);
-
-    newFlag.setId(flag.getId());
-
-    if (newFlag.getRolloutPercentage() == null
-        || newFlag.getRolloutPercentage().equals(flag.getRolloutPercentage())) {
-      assignedTargetRepository.deleteAllByFlagKey(flagKey);
-    }
-
-    flagRepository.save(newFlag);
-  }
-
-  public void deleteFlag(String flagKey) {
-    var flag = flagRepository.findFirstByFlagKey(flagKey);
-    if (flag.isEmpty()) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Flag not found");
-    }
-    assignedTargetRepository.deleteAllByFlagKey(flagKey);
-    flagRepository.deleteByFlagKey(flagKey);
-  }
-
   private <T> ProviderEvaluation<T> evaluation(
       String flagKey, T defaultValue, EvaluationContext ctx, Class<T> valueType) {
     try {
@@ -153,10 +107,8 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
           .reason("default variant")
           .build();
 
-    } catch (ClassCastException e) {
-      throw new it.jacopocarlini.fffp.exceptions.FeatureFlagEvaluationException("Value type mismatch for flag: " + flagKey, e);
     } catch (Exception e) {
-      throw new it.jacopocarlini.fffp.exceptions.FeatureFlagEvaluationException("Error evaluating flag: " + flagKey, e);
+      return createDefaultEvaluation(defaultValue, INVALID_FLAG_DATA.name());
     }
   }
 
@@ -169,7 +121,7 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
   }
 
   private <T> ProviderEvaluation<T> handleRollout(
-      Flag flag, EvaluationContext ctx, Class<T> valueType) {
+      Flag flag, EvaluationContext ctx, Class<T> valueType) throws InvalidFeatureFlagException {
     String targetKey = ctx.getTargetingKey();
     String variant = determineVariantForRollout(flag);
     if (targetKey != null) {
@@ -194,13 +146,5 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
         .reason(ROLLOUT.name())
         .variant(variant)
         .build();
-  }
-
-  private Flag getFlagIfIsPresent(String flagKey) {
-    var flag = flagRepository.findFirstByFlagKey(flagKey);
-    if (flag.isEmpty()) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Flag not found");
-    }
-    return flag.get();
   }
 }

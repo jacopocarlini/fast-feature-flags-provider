@@ -9,8 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
- * Manages the MongoDB client and provides a MongoTemplate for database interactions.
- * Ensures thread-safe operations when updating the connection settings.
+ * Manages the MongoDB client and provides a MongoTemplate for database interactions. Ensures
+ * thread-safe operations when updating the connection settings.
  */
 public class MongoClientManager {
   private final Lock lock = new ReentrantLock();
@@ -18,13 +18,13 @@ public class MongoClientManager {
   private MongoTemplate mongoTemplate;
   private String currentConnectionString = null;
 
-
   /**
-   * Updates the MongoDB connection. Closes the current connection if it exists and establishes a new one
-   * with the provided connection string.
+   * Updates the MongoDB connection. Closes the current connection if it exists and establishes a
+   * new one with the provided connection string.
    *
    * @param newConnectionString the new MongoDB connection string
-   * @throws IllegalStateException if the MongoDB database name is not specified in the connection string
+   * @throws IllegalStateException if the MongoDB database name is not specified in the connection
+   *     string
    */
   public void updateConnection(String newConnectionString) {
     lock.lock();
@@ -53,9 +53,7 @@ public class MongoClientManager {
     }
   }
 
-  /**
-   * Shuts down the MongoClient, closing any open connections.
-   */
+  /** Shuts down the MongoClient, closing any open connections. */
   public void shutdown() {
     if (mongoClient != null) {
       mongoClient.close();

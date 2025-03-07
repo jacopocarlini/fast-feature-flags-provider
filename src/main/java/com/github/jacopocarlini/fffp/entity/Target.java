@@ -1,16 +1,16 @@
 package com.github.jacopocarlini.fffp.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
+@Builder(toBuilder = true)
 @Data
-@Builder
-@ToString
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Target {
 
+  @NotBlank
   private String filter;
+  @NotBlank
   private String variant;
 }

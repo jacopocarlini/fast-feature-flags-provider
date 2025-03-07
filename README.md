@@ -1,11 +1,14 @@
 # Fast Feature-Flags Provider
+
 An [open feature](https://openfeature.dev/) provider to operate with MongoDB
 
 ---
 
 # Pre-requisites
+
 - MongoDB running (see for an example in `examples/docker-compose.yml`) )
 - import the dependency in your `pom.xml` and add the GitHub repository. You need a PAT token with read packages scope.
+
 ``` xml
     <dependency>
         <groupId>com.github.jacopocarlini</groupId>
@@ -24,7 +27,13 @@ An [open feature](https://openfeature.dev/) provider to operate with MongoDB
 
 # How To Use
 
+There are two versions of this provider: the `MongoDBFeatureFlagProvider`, which implements only the basic openFeature
+methods to evaluate flags,
+and the `MongoDBFeatureFlagProviderExtended`, which includes additional methods for retrieving, creating, deleting, and
+updating flags.
+
 In your Java class:
+
 ``` java
   import it.jacopocarlini.fffp.providers.MongoDBFeatureFlagProvider;
   ...
@@ -33,8 +42,8 @@ In your Java class:
     OpenFeatureAPI openFeatureAPI = OpenFeatureAPI.getInstance();
     
     // set the connection string
-    MongoDBFeatureFlagProvider provider =
-        new MongoDBFeatureFlagProvider(
+    MongoDBFeatureFlagProviderExtended provider =
+        new MongoDBFeatureFlagProviderExtended(
             "mongodb://user:adminpassword@localhost:27017/openfeature?authSource=admin");
     openFeatureAPI.setProvider(provider);
     
@@ -65,11 +74,23 @@ In your Java class:
 }
 ```
 
-If the flag is not enabled the value will be the `defaultValue` passed in `client.getStringValue("font", "10")`. 
+If the flag is not enabled the value will be the `defaultValue` passed in `client.getStringValue("font", "10")`.
+
+| Parameter      | Required | Description            |
+|----------------|----------|------------------------|
+| flagKey        | yes      | the flag key           |
+| enabled        | yes      | if the flag is enabled |
+| variants       | yes      | a map of variants      | 
+| defaultVariant | yes      | the default variant    |
+| timeWindow     | no       | the time window        |
+| target         | no       | the target             |
+| rollout        | no       | the rollout percentage |
 
 ## Set a Time Window
-You can set a time window to evaluate the flag. 
-If the current time is outside the time window the flag will always be  disabled.
+
+You can set a time window to evaluate the flag.
+If the current time is outside the time window the flag will always be disabled.
+
 ``` java
 Flag.builder()
     ...
@@ -101,6 +122,7 @@ Flag.builder()
 ```
 
 ## Set a Rollout Percentage
+
 You can set a rollout percentage foreach variant.
 
 ``` java
@@ -117,6 +139,6 @@ Flag.builder()
     .build();
 ```
 
-> **_NOTE:_** When a target key is provided in the context, 
+> **_NOTE:_** When a target key is provided in the context,
 > the random assigned variant is persisted and used on subsequent evaluations, overriding the rollout percentage.
 > When the rollout percentage is modified or deleted, the assigned variant is also removed.

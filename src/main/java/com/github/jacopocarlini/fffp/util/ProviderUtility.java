@@ -1,25 +1,24 @@
 package com.github.jacopocarlini.fffp.util;
 
+import static com.github.jacopocarlini.fffp.util.Reason.TARGET_MATCHED;
+
 import com.github.jacopocarlini.fffp.entity.Flag;
 import com.github.jacopocarlini.fffp.entity.Target;
+import com.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
 import dev.openfeature.sdk.EvaluationContext;
 import dev.openfeature.sdk.ProviderEvaluation;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
-
-import static com.github.jacopocarlini.fffp.util.Reason.TARGET_MATCHED;
-
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProviderUtility {
   private static final Random RANDOM = new Random();
-  public static void checkRolloutPercentage(Flag flag) {
+  public static void checkRolloutPercentage(Flag flag) throws InvalidFeatureFlagException {
     if (flag.getRolloutPercentage() == null) {
       return;
     }
@@ -28,18 +27,18 @@ public class ProviderUtility {
       percentage += entry.getValue();
     }
     if (percentage != 100 && percentage != 0) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException(
+      throw new InvalidFeatureFlagException(
           "Rollout percentage not valid. Sum of percentage must be 0 or 100");
     }
   }
 
-  public static void checkVariant(Flag flag) {
+  public static void checkVariant(Flag flag) throws InvalidFeatureFlagException {
     if (flag.getVariants().isEmpty()) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Variants not present. Add at least one variant");
+      throw new InvalidFeatureFlagException("Variants not present. Add at least one variant");
     }
     var defaultNotPresent = flag.getVariants().get(flag.getDefaultVariant()) == null;
     if (defaultNotPresent) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("Default not present. Set a default variant");
+      throw new InvalidFeatureFlagException("Default not present. Set a default variant");
     }
   }
 
@@ -53,7 +52,7 @@ public class ProviderUtility {
   }
 
   public static <T> Optional<ProviderEvaluation<T>> checkTargetMatch(
-      Flag flag, EvaluationContext ctx, Class<T> valueType) {
+      Flag flag, EvaluationContext ctx, Class<T> valueType) throws InvalidFeatureFlagException {
     if (flag.getTarget() == null || ctx.getTargetingKey() == null) {
       return Optional.empty();
     }
@@ -92,9 +91,9 @@ public class ProviderUtility {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> T convertValue(Object value, Class<T> targetType) {
+  public static <T> T convertValue(Object value, Class<T> targetType) throws InvalidFeatureFlagException {
     if (value == null) {
-      throw new it.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException("value is null");
+      throw new InvalidFeatureFlagException("value is null");
     }
 
     if (targetType.isInstance(value)) {

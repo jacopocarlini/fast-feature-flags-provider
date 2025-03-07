@@ -1,16 +1,13 @@
 package com.github.jacopocarlini.fffp.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Builder
+@Builder(toBuilder = true)
 @Data
-@ToString
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Document(collection = "assignedTarget")
 public class AssignedTarget {
 
