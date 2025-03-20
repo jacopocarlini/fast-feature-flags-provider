@@ -28,8 +28,8 @@ public class ExampleUsage {
                     put("big", "18");
                   }
                 })
-            //            .timeWindowStart(LocalDateTime.of(2025, 1, 1, 0, 0))
-            //            .timeWindowEnd(LocalDateTime.of(2026, 1, 2, 0, 0))
+//                        .timeWindowStart(ZonedDateTime.of(2025, 1, 1, 0, 0))
+            //            .timeWindowEnd(ZonedDateTime.of(2026, 1, 2, 0, 0))
             //            .target(
             //                Collections.singletonList(
             //                    Target.builder().filter(".*@email.it").variant("big").build()))

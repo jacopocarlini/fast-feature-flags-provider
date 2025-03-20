@@ -94,8 +94,8 @@ If the current time is outside the time window the flag will always be disabled.
 ``` java
 Flag.builder()
     ...
-    .timeWindowStart(LocalDateTime.of(2025, 1, 1, 0, 0))
-    .timeWindowEnd(LocalDateTime.of(2026, 1, 2, 0, 0))
+    .timeWindowStart(ZonedDateTime.of(2025, 1, 1, 0, 0))
+    .timeWindowEnd(ZonedDateTime.of(2026, 1, 2, 0, 0))
     .build();
 ```
 

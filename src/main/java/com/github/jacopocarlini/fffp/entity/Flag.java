@@ -1,6 +1,6 @@
 package com.github.jacopocarlini.fffp.entity;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,18 +25,17 @@ public class Flag {
   @NotBlank
   private String flagKey;
 
-  @NotNull
-  private Boolean enabled;
+  @NotNull private Boolean enabled;
 
   @Size(min = 1)
   private Map<String, Object> variants;
-  @NotBlank
-  private String defaultVariant;
+
+  @NotBlank private String defaultVariant;
 
   private List<Target> target;
 
   private Map<String, Integer> rolloutPercentage;
 
-  private LocalDateTime timeWindowStart;
-  private LocalDateTime timeWindowEnd;
+  private ZonedDateTime timeWindowStart;
+  private ZonedDateTime timeWindowEnd;
 }

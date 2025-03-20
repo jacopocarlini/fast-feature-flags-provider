@@ -7,7 +7,7 @@ import com.github.jacopocarlini.fffp.entity.Target;
 import com.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
 import dev.openfeature.sdk.EvaluationContext;
 import dev.openfeature.sdk.ProviderEvaluation;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -47,7 +47,7 @@ public class ProviderUtility {
       return false;
     }
 
-    LocalDateTime now = LocalDateTime.now();
+    ZonedDateTime now = ZonedDateTime.now();
     return now.isBefore(flag.getTimeWindowStart()) || now.isAfter(flag.getTimeWindowEnd());
   }
 
