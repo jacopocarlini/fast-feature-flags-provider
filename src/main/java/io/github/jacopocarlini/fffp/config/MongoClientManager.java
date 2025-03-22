@@ -1,4 +1,4 @@
-package com.github.jacopocarlini.fffp.config;
+package io.github.jacopocarlini.fffp.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;

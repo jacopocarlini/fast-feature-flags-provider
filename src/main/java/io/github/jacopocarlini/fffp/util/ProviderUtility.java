@@ -1,10 +1,10 @@
-package com.github.jacopocarlini.fffp.util;
+package io.github.jacopocarlini.fffp.util;
 
-import static com.github.jacopocarlini.fffp.util.Reason.TARGET_MATCHED;
+import static io.github.jacopocarlini.fffp.util.Reason.TARGET_MATCHED;
 
-import com.github.jacopocarlini.fffp.entity.Flag;
-import com.github.jacopocarlini.fffp.entity.Target;
-import com.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
+import io.github.jacopocarlini.fffp.entity.Flag;
+import io.github.jacopocarlini.fffp.entity.Target;
+import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
 import dev.openfeature.sdk.EvaluationContext;
 import dev.openfeature.sdk.ProviderEvaluation;
 import java.time.ZonedDateTime;

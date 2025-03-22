@@ -7,16 +7,19 @@ An [open feature](https://openfeature.dev/) provider to operate with MongoDB
 # Pre-requisites
 
 - MongoDB running (see for an example in `examples/docker-compose.yml`) )
-- import the dependency in your `pom.xml` and add the GitHub repository. You need a PAT token with read packages scope.
+- import the dependency in your `pom.xml` and add the GitHub repository.
 
 ``` xml
     <dependency>
-        <groupId>com.github.jacopocarlini</groupId>
+        <groupId>io.github.jacopocarlini</groupId>
         <artifactId>fast-feature-flags-provider</artifactId>
-        <version>1.0.0</version>
+        <version>X.X.X</version>
     </dependency>
+```
 
-...
+If you want to use Github package registry, add the following to your `pom.xml`. You need a PAT token with read packages scope.
+
+```xml
 <repositories>
     <repository>
         <id>github</id>

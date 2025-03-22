@@ -1,4 +1,4 @@
-package com.github.jacopocarlini.fffp.entity;
+package io.github.jacopocarlini.fffp.entity;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

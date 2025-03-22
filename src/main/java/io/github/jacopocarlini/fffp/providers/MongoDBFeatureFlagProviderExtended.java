@@ -1,9 +1,9 @@
-package com.github.jacopocarlini.fffp.providers;
+package io.github.jacopocarlini.fffp.providers;
 
-import static com.github.jacopocarlini.fffp.util.ProviderUtility.*;
+import static io.github.jacopocarlini.fffp.util.ProviderUtility.*;
 
-import com.github.jacopocarlini.fffp.entity.Flag;
-import com.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
+import io.github.jacopocarlini.fffp.entity.Flag;
+import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
 import dev.openfeature.sdk.*;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;

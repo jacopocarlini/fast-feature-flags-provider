@@ -1,4 +1,4 @@
-package com.github.jacopocarlini.fffp.entity;
+package io.github.jacopocarlini.fffp.entity;
 
 import java.time.ZonedDateTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.jacopocarlini.fffp.util;
+package io.github.jacopocarlini.fffp.util;
 
 public enum Reason {
   DEFAULT_VALUE,

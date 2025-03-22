@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <groupId>com.github.jacopocarlini</groupId>
+    <groupId>io.github.jacopocarlini</groupId>
     <artifactId>fast-feature-flags-provider</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
 
@@ -86,6 +86,20 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <scmCommentPrefix>[ci skip]</scmCommentPrefix>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <scm>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <url>https://github.com/jacopocarlini/fast-feature-flags-provider.git</url>
+        <tag>HEAD</tag>
+    </scm>
 </project>

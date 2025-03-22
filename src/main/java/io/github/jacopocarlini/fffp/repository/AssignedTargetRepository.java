@@ -1,7 +1,7 @@
-package com.github.jacopocarlini.fffp.repository;
+package io.github.jacopocarlini.fffp.repository;
 
-import com.github.jacopocarlini.fffp.config.MongoClientManager;
-import com.github.jacopocarlini.fffp.entity.AssignedTarget;
+import io.github.jacopocarlini.fffp.config.MongoClientManager;
+import io.github.jacopocarlini.fffp.entity.AssignedTarget;
 import java.util.Optional;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

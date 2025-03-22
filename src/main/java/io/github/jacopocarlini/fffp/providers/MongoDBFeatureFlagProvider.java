@@ -1,14 +1,14 @@
-package com.github.jacopocarlini.fffp.providers;
+package io.github.jacopocarlini.fffp.providers;
 
-import static com.github.jacopocarlini.fffp.util.ProviderUtility.*;
-import static com.github.jacopocarlini.fffp.util.Reason.*;
+import static io.github.jacopocarlini.fffp.util.ProviderUtility.*;
+import static io.github.jacopocarlini.fffp.util.Reason.*;
 
-import com.github.jacopocarlini.fffp.config.MongoClientManager;
-import com.github.jacopocarlini.fffp.entity.AssignedTarget;
-import com.github.jacopocarlini.fffp.entity.Flag;
-import com.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
-import com.github.jacopocarlini.fffp.repository.AssignedTargetRepository;
-import com.github.jacopocarlini.fffp.repository.FlagRepository;
+import io.github.jacopocarlini.fffp.config.MongoClientManager;
+import io.github.jacopocarlini.fffp.entity.AssignedTarget;
+import io.github.jacopocarlini.fffp.entity.Flag;
+import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
+import io.github.jacopocarlini.fffp.repository.AssignedTargetRepository;
+import io.github.jacopocarlini.fffp.repository.FlagRepository;
 import dev.openfeature.sdk.*;
 import java.util.Optional;
 
