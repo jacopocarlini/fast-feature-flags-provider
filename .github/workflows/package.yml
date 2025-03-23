@@ -18,7 +18,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Java & Maven
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -43,6 +43,12 @@ jobs:
 #          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
 #          restore-keys: ${{ runner.os }}-m2
 
+      - name: Create settings.xml
+        run: echo "$MAVEN_SETTINGS" > $HOME/.m2/settings.xml
+        shell: bash
+        env:
+          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
@@ -53,11 +59,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create settings.xml
-        run: echo "$MAVEN_SETTINGS" > $HOME/.m2/settings.xml
-        shell: bash
-        env:
-          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+
 
       - name: Publish to Maven Central
         run: |
