@@ -18,24 +18,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Setup Java & Maven
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'maven'
+#          cache: 'maven'
 
       - name: Set up Maven
         uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
         with:
           maven-version: 3.8.2
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+      - name: Import GPG Key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+#      - name: Cache Maven packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
@@ -47,7 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Creare settings.xml
+      - name: Create settings.xml
         run: echo "$MAVEN_SETTINGS" > $HOME/.m2/settings.xml
         shell: bash
         env:
