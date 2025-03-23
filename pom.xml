@@ -7,8 +7,10 @@
     <groupId>io.github.jacopocarlini</groupId>
     <artifactId>fast-feature-flags-provider</artifactId>
     <version>1.1.1</version>
+    <name>${project.groupId}:${project.artifactId}</name>
     <packaging>jar</packaging>
-
+    <url>https://github.com/jacopocarlini/fast-feature-flags-provider</url>
+    <description>A MongoDB provider for openfeature.</description>
 
     <properties>
         <java.version>17</java.version>
@@ -16,6 +18,36 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <developers>
+        <developer>
+            <id>jacopocarlini</id>
+            <name>Jacopo Carlini</name>
+            <email>jacopo1395@gmail.com</email>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/jacopocarlini/fast-feature-flags-provider.git</connection>
+        <developerConnection>scm:git:ssh://github.com/jacopocarlini/fast-feature-flags-provider.git</developerConnection>
+        <url>https://github.com/jacopocarlini/fast-feature-flags-provider/tree/main</url>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -28,7 +60,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +93,7 @@
         </dependency>
 
     </dependencies>
+
     <repositories>
         <repository>
             <snapshots>
@@ -72,6 +104,7 @@
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
+
     <build>
         <plugins>
             <plugin>
@@ -87,19 +120,62 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>3.1.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <scmCommentPrefix>[ci skip]</scmCommentPrefix>
+                    <gpgArguments>
+                        <gpgArgument>--batch</gpgArgument>
+                        <gpgArgument>--pinentry-mode</gpgArgument>
+                        <gpgArgument>loopback</gpgArgument>
+                    </gpgArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <scm>
-        <connection>scm:git:${project.scm.url}</connection>
-        <developerConnection>scm:git:${project.scm.url}</developerConnection>
-        <url>https://github.com/jacopocarlini/fast-feature-flags-provider.git</url>
-        <tag>HEAD</tag>
-    </scm>
 </project>
