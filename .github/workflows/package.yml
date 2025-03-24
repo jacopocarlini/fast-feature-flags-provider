@@ -23,7 +23,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-#          cache: 'maven'
 
       - name: Set up Maven
         uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
@@ -59,24 +58,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-
       - name: Publish to Maven Central
         run: |
           mvn deploy
-
-#      - name: Build and Test
-#        uses: qcastel/github-actions-maven-cmd@master
-#        with:
-#          maven-args: "clean install -Ddockerfile.skip -DdockerCompose.skip -Djib.skip"
-
-
-#      - name: Java Maven release
-#        uses: qcastel/github-actions-maven-release@master
-#        env:
-#          JAVA_HOME: /usr/lib/jvm/java-17-openjdk/
-#        with:
-#          git-release-bot-name: "bot-idhub"
-#          git-release-bot-email: "bot@idhub.io"
-#          maven-args: "-Dmaven.javadoc.skip=true -DskipTests -DskipITs -Ddockerfile.skip -DdockerCompose.skip -Dmaven.deploy.skip=true"
-#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
