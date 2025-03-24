@@ -7,7 +7,7 @@ An [open feature](https://openfeature.dev/) provider to operate with MongoDB
 # Pre-requisites
 
 - MongoDB running (see for an example in `examples/docker-compose.yml`) )
-- import the dependency in your `pom.xml` and add the GitHub repository.
+- import the dependency in your `pom.xml`from [maven central](https://central.sonatype.com/artifact/io.github.jacopocarlini/fast-feature-flags-provider).
 
 ``` xml
     <dependency>
@@ -17,7 +17,8 @@ An [open feature](https://openfeature.dev/) provider to operate with MongoDB
     </dependency>
 ```
 
-If you want to use Github package registry, add the following to your `pom.xml`. You need a PAT token with read packages scope.
+### Alternative Articat Repository
+If you want to use Github package registry, add the following snippet to your `pom.xml`. You need a PAT token with read packages scope.
 
 ```xml
 <repositories>
