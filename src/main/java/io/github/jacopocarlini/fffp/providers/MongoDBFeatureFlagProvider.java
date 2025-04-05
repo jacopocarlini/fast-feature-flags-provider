@@ -3,15 +3,18 @@ package io.github.jacopocarlini.fffp.providers;
 import static io.github.jacopocarlini.fffp.util.ProviderUtility.*;
 import static io.github.jacopocarlini.fffp.util.Reason.*;
 
+import dev.openfeature.sdk.*;
 import io.github.jacopocarlini.fffp.config.MongoClientManager;
 import io.github.jacopocarlini.fffp.entity.AssignedTarget;
 import io.github.jacopocarlini.fffp.entity.Flag;
 import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
 import io.github.jacopocarlini.fffp.repository.AssignedTargetRepository;
 import io.github.jacopocarlini.fffp.repository.FlagRepository;
-import dev.openfeature.sdk.*;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 
+@Slf4j
 public class MongoDBFeatureFlagProvider extends EventProvider {
 
   protected final FlagRepository flagRepository;
@@ -107,8 +110,12 @@ public class MongoDBFeatureFlagProvider extends EventProvider {
           .reason("default variant")
           .build();
 
-    } catch (Exception e) {
+    } catch (InvalidFeatureFlagException | ClassCastException e) {
+      log.error("Evaluation error for flag {}: {}", flagKey, e.getMessage());
       return createDefaultEvaluation(defaultValue, INVALID_FLAG_DATA.name());
+    } catch (DataAccessException e) {
+      log.error("Database error evaluating flag {}: {}", flagKey, e.getMessage(), e);
+      return createDefaultEvaluation(defaultValue, "database_error");
     }
   }
 

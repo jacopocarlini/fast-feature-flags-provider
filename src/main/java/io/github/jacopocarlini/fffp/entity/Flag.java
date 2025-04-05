@@ -1,5 +1,6 @@
 package io.github.jacopocarlini.fffp.entity;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,6 @@ public class Flag {
 
   private Map<String, Integer> rolloutPercentage;
 
-  private ZonedDateTime timeWindowStart;
-  private ZonedDateTime timeWindowEnd;
+  private Instant timeWindowStart;
+  private Instant timeWindowEnd;
 }

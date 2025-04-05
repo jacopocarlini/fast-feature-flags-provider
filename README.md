@@ -65,7 +65,7 @@ In your Java class:
                 })
             .defaultVariant("medium")
             .build();
-    provider.crateFlag(flag);
+    provider.createFlag(flag);
     
     // evaluate
     Client client = openFeatureAPI.getClient();

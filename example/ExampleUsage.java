@@ -28,8 +28,8 @@ public class ExampleUsage {
                     put("big", "18");
                   }
                 })
-//                        .timeWindowStart(ZonedDateTime.of(2025, 1, 1, 0, 0))
-            //            .timeWindowEnd(ZonedDateTime.of(2026, 1, 2, 0, 0))
+//                .timeWindowStart(ZonedDateTime.of(LocalDateTime.now().minusDays(2), ZoneId.of("UTC")))
+//                .timeWindowEnd(ZonedDateTime.of(LocalDateTime.now().minusDays(1), ZoneId.of("UTC")))
             //            .target(
             //                Collections.singletonList(
             //                    Target.builder().filter(".*@email.it").variant("big").build()))
@@ -43,12 +43,12 @@ public class ExampleUsage {
                 })
             .defaultVariant("medium")
             .build();
-    provider.crateFlag(flag);
+    provider.createFlag(flag);
     provider.updateFlag("font", flag.toBuilder().rolloutPercentage(null).build());
     Client client = openFeatureAPI.getClient();
     //    var value = client.getStringValue("font", "0");
     var value =
-        client.getStringValue("font", "0", new MutableContext().setTargetingKey("jacopo@email.it"));
+        client.getStringValue("font", "0", new MutableContext().setTargetingKey("user@email.it"));
     System.out.println(value);
   }
 }

@@ -2,20 +2,26 @@ package io.github.jacopocarlini.fffp.providers;
 
 import static io.github.jacopocarlini.fffp.util.ProviderUtility.*;
 
+import dev.openfeature.sdk.*;
 import io.github.jacopocarlini.fffp.entity.Flag;
 import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
-import dev.openfeature.sdk.*;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvider {
 
+  private final Validator validator;
+
   public MongoDBFeatureFlagProviderExtended(String connectionString) {
     super(connectionString);
+    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+      validator = factory.getValidator();
+    }
   }
 
   @Override
@@ -23,15 +29,18 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     return () -> "MongoDBFeatureFlagProviderExtended";
   }
 
+  @Transactional
   public List<Flag> getFlags() {
     return super.flagRepository.findAll();
   }
 
+  @Transactional
   public Flag getFlag(String flagKey) throws InvalidFeatureFlagException {
     return getFlagIfIsPresent(flagKey);
   }
 
-  public void crateFlag(Flag flag) throws InvalidFeatureFlagException {
+  @Transactional
+  public void createFlag(Flag flag) throws InvalidFeatureFlagException {
     validateFlag(flag);
 
     var isPresent = flagRepository.findFirstByFlagKey(flag.getFlagKey()).isPresent();
@@ -45,6 +54,7 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     flagRepository.save(flag);
   }
 
+  @Transactional
   public void updateFlag(String flagKey, Flag newFlag) throws InvalidFeatureFlagException {
     validateFlag(newFlag);
 
@@ -63,6 +73,7 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     flagRepository.save(newFlag);
   }
 
+  @Transactional
   public void deleteFlag(String flagKey) throws InvalidFeatureFlagException {
     var flag = flagRepository.findFirstByFlagKey(flagKey);
     if (flag.isEmpty()) {
@@ -80,11 +91,7 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     return flag.get();
   }
 
-  private static void validateFlag(Flag flag) throws InvalidFeatureFlagException {
-    Validator validator;
-    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-      validator = factory.getValidator();
-    }
+  private void validateFlag(Flag flag) throws InvalidFeatureFlagException {
     var errors = validator.validate(flag);
     if (!errors.isEmpty()) {
       var messages = new ArrayList<>();

@@ -2,12 +2,12 @@ package io.github.jacopocarlini.fffp.util;
 
 import static io.github.jacopocarlini.fffp.util.Reason.TARGET_MATCHED;
 
+import dev.openfeature.sdk.EvaluationContext;
+import dev.openfeature.sdk.ProviderEvaluation;
 import io.github.jacopocarlini.fffp.entity.Flag;
 import io.github.jacopocarlini.fffp.entity.Target;
 import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
-import dev.openfeature.sdk.EvaluationContext;
-import dev.openfeature.sdk.ProviderEvaluation;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -47,7 +47,7 @@ public class ProviderUtility {
       return false;
     }
 
-    ZonedDateTime now = ZonedDateTime.now();
+    var now = Instant.now();
     return now.isBefore(flag.getTimeWindowStart()) || now.isAfter(flag.getTimeWindowEnd());
   }
 

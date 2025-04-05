@@ -6,6 +6,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
@@ -39,7 +42,8 @@ public class MongoClientManager {
 
       ConnectionString connectionString = new ConnectionString(newConnectionString);
       MongoClientSettings settings =
-          MongoClientSettings.builder().applyConnectionString(connectionString).build();
+          MongoClientSettings.builder().applyConnectionString(connectionString)
+                  .build();
       mongoClient = MongoClients.create(settings);
 
       String database = connectionString.getDatabase();
@@ -68,7 +72,7 @@ public class MongoClientManager {
    */
   public MongoTemplate getMongoTemplate() {
     if (mongoTemplate == null) {
-      throw new IllegalStateException("❌ No active connection to MongoDB.");
+      throw new IllegalStateException("No active connection to MongoDB.");
     }
     return mongoTemplate;
   }
