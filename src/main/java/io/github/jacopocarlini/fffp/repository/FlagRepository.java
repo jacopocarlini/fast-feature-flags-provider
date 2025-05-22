@@ -1,6 +1,5 @@
 package io.github.jacopocarlini.fffp.repository;
 
-import io.github.jacopocarlini.fffp.config.MongoClientManager;
 import io.github.jacopocarlini.fffp.entity.Flag;
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +8,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 public class FlagRepository {
+
   private final MongoTemplate mongoTemplate;
 
-  public FlagRepository(MongoClientManager mongoClientManager) {
-    this.mongoTemplate = mongoClientManager.getMongoTemplate();
+  public FlagRepository(MongoTemplate mongoTemplate) {
+    this.mongoTemplate = mongoTemplate;
   }
 
   public void deleteByFlagKey(String flagKey) {

@@ -29,17 +29,14 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     return () -> "MongoDBFeatureFlagProviderExtended";
   }
 
-  @Transactional
   public List<Flag> getFlags() {
     return super.flagRepository.findAll();
   }
 
-  @Transactional
   public Flag getFlag(String flagKey) throws InvalidFeatureFlagException {
     return getFlagIfIsPresent(flagKey);
   }
 
-  @Transactional
   public void createFlag(Flag flag) throws InvalidFeatureFlagException {
     validateFlag(flag);
 
@@ -54,7 +51,6 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     flagRepository.save(flag);
   }
 
-  @Transactional
   public void updateFlag(String flagKey, Flag newFlag) throws InvalidFeatureFlagException {
     validateFlag(newFlag);
 
@@ -73,7 +69,6 @@ public class MongoDBFeatureFlagProviderExtended extends MongoDBFeatureFlagProvid
     flagRepository.save(newFlag);
   }
 
-  @Transactional
   public void deleteFlag(String flagKey) throws InvalidFeatureFlagException {
     var flag = flagRepository.findFirstByFlagKey(flagKey);
     if (flag.isEmpty()) {

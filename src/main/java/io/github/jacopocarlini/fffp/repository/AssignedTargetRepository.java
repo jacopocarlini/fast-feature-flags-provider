@@ -1,17 +1,17 @@
 package io.github.jacopocarlini.fffp.repository;
 
-import io.github.jacopocarlini.fffp.config.MongoClientManager;
 import io.github.jacopocarlini.fffp.entity.AssignedTarget;
 import java.util.Optional;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public class AssignedTargetRepository {
   private final MongoTemplate mongoTemplate;
 
-  public AssignedTargetRepository(MongoClientManager mongoClientManager) {
-    this.mongoTemplate = mongoClientManager.getMongoTemplate();
+  public AssignedTargetRepository(MongoTemplate mongoTemplate) {
+    this.mongoTemplate = mongoTemplate;
   }
 
   public void deleteAllByFlagKey(String flagKey) {

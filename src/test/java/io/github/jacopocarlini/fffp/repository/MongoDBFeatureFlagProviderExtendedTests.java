@@ -8,15 +8,19 @@ import dev.openfeature.sdk.OpenFeatureAPI;
 import io.github.jacopocarlini.fffp.entity.Flag;
 import io.github.jacopocarlini.fffp.entity.Target;
 import io.github.jacopocarlini.fffp.exceptions.InvalidFeatureFlagException;
-import io.github.jacopocarlini.fffp.providers.MongoDBFeatureFlagProviderExtended;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashMap;
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.Test;
 
+import io.github.jacopocarlini.fffp.providers.MongoDBFeatureFlagProviderExtended;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class MongoDBFeatureFlagProviderExtendedTests {
 
   MongoDBFeatureFlagProviderExtended provider =
@@ -47,6 +51,7 @@ public class MongoDBFeatureFlagProviderExtendedTests {
 
     Client client = openFeatureAPI.getClient();
     var value = client.getStringValue("font", "0");
+//     value = provider.getStringEvaluation("font", "0", null).getValue();
     assertEquals("14", value);
   }
 
@@ -167,6 +172,7 @@ public class MongoDBFeatureFlagProviderExtendedTests {
   }
 
   private void eraseDB() {
+    System.out.printf("erase");
     try {
       provider.deleteFlag("font");
     } catch (InvalidFeatureFlagException e) {

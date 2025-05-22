@@ -5,6 +5,7 @@ services:
     restart: always
     ports:
       - "27017:27017"
+#    command: [ "--replSet", "rs0" ]
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: adminpassword
